@@ -25,7 +25,6 @@ All options are... optional ;-) The list of options presented here is exhaustive
 | `htmlAttribute`    | String   | `'data-lingua'`                     |
 | `autoRefresh`      | Boolean  | `true`                              |
 | `processor`        | Function | `function( data ) { return data; }` |
-
 If one of the default values is not suitable, it can be redefined by passing an object with its own settings:
 
     let options = {
@@ -39,14 +38,12 @@ If one of the default values is not suitable, it can be redefined by passing an 
 
 
 #### Methods
-
 | Method                      | Description                                                                                                                                                     | Sample                                                                             |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | currentLanguage( language ) | **Used to switch current language**                                                                                                                             | currentLanguage( 'de' );                                                           |
 | currentLanguage()           | Get current language                                                                                                                                            | currentLanguage();                                                                 |
 | translateDocument()         | **Translates current HTML document**: It is called automatically after initialization, and if auto refresh is activated, also on language switch and DOM change | translateDocument();                                                               |
 | translateText()             | **Translate a text**: Can be one of the terms alone, or one of the terms integrated in a string. If integrated, use prefix `${` and suffix `}`.                 | language.translateText( 'firstname' ); language.translateText( '${firstname}: ' ); |
-
 ### Adapting your HTML document
 Add the following attribute to your HTML elements with the corresponding associated term to make this element multilingual:
 `data-lingua="term"` e.g. `<span data-lingua="firstname"></span>`
@@ -55,8 +52,3 @@ You can also pass a longer text that includes one or more of the predefined term
 
 * `<span data-lingua="${firstname}"></span>`
 * `<span data-lingua="<strong>${firstname} ${lastname}</strong>"></span>`
-
-## License and warranty
-This software is offered on an "as-is" basis and has been created primarily for specific, personal needs. No warranty of any kind is provided, especially with regard to security.
-
-This software is in the public domain. This means that it is possible to change, use and redistribute the code of this software without prior authorization from the original author.
