@@ -1,0 +1,46 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>A Basic HTML5 Template</title>
+	<meta name="description" content="A simple HTML5 Template for new projects.">
+	<meta name="author" content="SitePoint">
+
+	<meta property="og:title" content="A Basic HTML5 Template">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+	<meta property="og:description" content="A simple HTML5 Template for new projects.">
+	<meta property="og:image" content="image.png">
+
+	<link rel="icon" href="/favicon.ico">
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+	<link rel="stylesheet" href="css/styles.css?v=1.0">
+
+	<script src="lingua.js"></script>
+</head>
+
+<body>
+
+<script>
+let translations = {
+    'firstname': { de: 'Vorname', fr: 'Prénom', it: 'Nome' },
+    'lastname': { de: 'Nachname', fr: 'Nom', it: 'Cognome', en: 'Last name' },
+    'completename': { de: '${firstname} und ${lastname}', fr: '${firstname} et ${lastname}', it: '${firstname} e ${lastname}' },
+	'title': { de: 'Titel', fr: 'Titre', it: 'Titolo' },
+	'subtitle': { de: 'Untertitel', fr: 'Sous-Titre', it: 'Subtitolo' }
+}
+
+let language = new Lingua( translations );
+</script>
+
+<h1 data-lingua="title"></h1>
+<h2 data-lingua="subtitle"></h2>
+<p><span data-lingua="${firstname} ${lastname}"></span>: Michel Gentile</p>
+
+</body>
+</html>
