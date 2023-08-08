@@ -80,8 +80,9 @@ class Lingua
 			}
 		}
 		catch( e )
-		{
-			this.log( e );
+		{			
+            console.log( e );
+            this.log( e );            
 		}			
     }
     
@@ -100,7 +101,7 @@ class Lingua
                     //Creating translation object for chosen language
                     let that = this;
                     let currentTranslationObject = {};
-                    Object.entries( translations ).forEach( function( translation )
+                    Object.entries( this.translations ).forEach( function( translation )
                     {
 						currentTranslationObject[ translation[ 0 ] ] = ( translation[ 1 ][ that.language ] != undefined ? translation[ 1 ][ that.language ] : translation[ 0 ] );
                     } );
