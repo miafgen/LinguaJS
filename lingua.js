@@ -35,7 +35,8 @@ class Lingua
             cookieName: 'lang',
             htmlAttribute: 'data-lingua',
             autoRefresh: true,
-            processor: function( data ) { return data; }            
+            processor: function( data ) { return data; },
+			languageChanged: function( newLanguage ) {}
         };
 
         if( translations == null || Object.keys( translations ).length == 0 )
@@ -111,6 +112,11 @@ class Lingua
 					if( oldLanguage == null || this.options.autoRefresh )
 					{
 						this.translateDocument();
+					}
+					
+					if( typeof( this.options.languageChanged ) == 'function' )
+					{
+						this.options.languageChanged( language );
 					}
                 }
                 else

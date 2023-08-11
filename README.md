@@ -24,6 +24,7 @@ All options are... optional ;-) The list of options presented here is exhaustive
 | `cookieName`       | String   | `'lang'`                            |
 | `htmlAttribute`    | String   | `'data-lingua'`                     |
 | `autoRefresh`      | Boolean  | `true`                              |
+| `languageChanged`  | Function | `function( newLanguage ) {}`        |
 | `processor`        | Function | `function( data ) { return data; }` |
 
 If one of the default values is not suitable, it can be redefined by passing an object with its own settings:
@@ -43,7 +44,7 @@ If one of the default values is not suitable, it can be redefined by passing an 
 | Method                      | Description                                                                                                                                                     | Sample                                                                             |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | currentLanguage( language ) | **Used to switch current language**                                                                                                                             | currentLanguage( 'de' );                                                           |
-| currentLanguage()           | Get current language                                                                                                                                            | currentLanguage();                                                                 |
+| currentLanguage()           | **Get current language**                                                                                                                                        | currentLanguage();                                                                 |
 | translateDocument()         | **Translates current HTML document**: It is called automatically after initialization, and if auto refresh is activated, also on language switch and DOM change | translateDocument();                                                               |
 | translateText()             | **Translate a text**: Can be one of the terms alone, or one of the terms integrated in a string. If integrated, use prefix `${` and suffix `}`.                 | language.translateText( 'firstname' ); language.translateText( '${firstname}: ' ); |
 
