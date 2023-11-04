@@ -17,16 +17,16 @@ You must provide the terms and the corresponding translations in the different l
 #### Options object
 All options are... optional ;-) The list of options presented here is exhaustive and shows the corresponding default values. 
 
-| Option             | Type     | Default value                       |
-|--------------------|----------|-------------------------------------|
-| `detectionModules` | Array    | `[ 'url', 'cookie', 'browser' ]`    |
-| `urlParameter`     | String   | `'lang'`                            |
-| `cookieName`       | String   | `'lang'`                            |
-| `htmlAttribute`    | String   | `'data-lingua'`                     |
-| `autoRefresh`      | Boolean  | `true`                              |
-| `languageChanged`  | Function | `function( newLanguage ) {}`        |
-| `processor`        | Function | `function( data ) { return data; }` |
-| `loaded`           | Function | `function( newLanguage ) {}`        |
+| Option             | Type     | Default value                                    |
+|--------------------|----------|--------------------------------------------------|
+| `detectionModules` | Array    | `[ 'url', 'cookie', 'browser' ]`                 |
+| `urlParameter`     | String   | `'lang'`                                         |
+| `cookieName`       | String   | `'lang'`                                         |
+| `htmlAttribute`    | String   | `'data-lingua'`                                  |
+| `autoRefresh`      | Boolean  | `true`                                           |
+| `languageChanged`  | Function | `function( newLanguage ) {}`                     |
+| `processor`        | Function | `function( data, newLanguage ) { return data; }` |
+| `loaded`           | Function | `function( newLanguage ) {}`                     |
 
 If one of the default values is not suitable, it can be redefined by passing an object with its own settings:
 
