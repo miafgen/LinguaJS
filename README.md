@@ -27,6 +27,7 @@ All options are... optional ;-) The list of options presented here is exhaustive
 | `languageChanged`  | Function | `function( newLanguage ) {}`        |
 | `processor`        | Function | `function( data ) { return data; }` |
 | `loaded`           | Function | `function( newLanguage ) {}`        |
+
 If one of the default values is not suitable, it can be redefined by passing an object with its own settings:
 
     let options = {
