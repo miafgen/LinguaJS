@@ -35,8 +35,9 @@ class Lingua
             cookieName: 'lang',
             htmlAttribute: 'data-lingua',
             autoRefresh: true,
-            processor: function( data ) { return data; },
-			languageChanged: function( newLanguage ) {}
+            processor: function( data, newLanguage ) { return data; },
+            loaded: function( newLanguage ) {},
+            languageChanged: function( newLanguage ) {}
         };
 
         if( translations == null || Object.keys( translations ).length == 0 )
@@ -107,21 +108,27 @@ class Lingua
 						currentTranslationObject[ translation[ 0 ] ] = ( translation[ 1 ][ that.language ] != undefined ? translation[ 1 ][ that.language ] : translation[ 0 ] );
                     } );
                     this.translation = currentTranslationObject;
-					
+
 					//Translate document for the first time or again if autoRefresh option has been enabled (it is by default)
 					if( oldLanguage == null || this.options.autoRefresh )
 					{
 						this.translateDocument();
 					}
-					
+
+                    //Once loaded (oldLanguage == null), call function 'loaded' if defined
+					if( oldLanguage == null && typeof( this.options.loaded ) == 'function' )
+					{
+						this.options.loaded( language );
+					}
+
 					if( typeof( this.options.languageChanged ) == 'function' )
 					{
 						this.options.languageChanged( language );
-					}
+                    }
                 }
                 else
                 {
-                    this.log( 'Language already set to "' + this.language + '"' ); 
+                    this.log( 'Language already set to "' + this.language + '"' );
                 }
             }
             else
@@ -225,7 +232,7 @@ class Lingua
 		//Call user-defined processor (by default, an empty one that only returns what it receives)
 		if( this.options.processor != null && typeof( this.options.processor ) == 'function' )
 		{
-			text = this.options.processor( text );
+			text = this.options.processor( text, this.language );
 		}
 
         return text;
