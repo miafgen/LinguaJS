@@ -37,7 +37,8 @@ class Lingua
             autoRefresh: true,
             processor: function( data, newLanguage ) { return data; },
             loaded: function( newLanguage ) {},
-            languageChanged: function( newLanguage ) {}
+            languageChanged: function( newLanguage ) {},
+			verbose: false
         };
 
         if( translations == null || Object.keys( translations ).length == 0 )
@@ -84,10 +85,41 @@ class Lingua
 		catch( e )
 		{			
             console.log( e );
-            this.log( e );            
+            this._log( e );            
 		}			
     }
     
+    _log( message )
+    {
+        if( this.options.verbose )
+		{
+			console.log( "%c LinguaJS %c " + message, "background-color: black; color: white; font-weight: bold;", "color: black; font-weight: none;" ); 
+		}
+    }
+	
+	_createTranslationObject( language )
+	{
+		if( language != null )
+		{
+			if( typeof( language ) === 'string' && this.languages.includes( language ) )
+            {            
+				//Creating translation object for chosen language
+				let that = this;
+				let currentTranslationObject = {};                    
+				for( let translation of Object.entries( this.translations ) )
+				{
+					currentTranslationObject[ translation[ 0 ] ] = ( translation[ 1 ][ language ] != undefined ? translation[ 1 ][ language ] : translation[ 0 ] );
+				}
+
+				return currentTranslationObject;				
+			}
+			else
+			{
+				throw 'Requested language does not exist';
+			}	
+		}
+	}
+	
     currentLanguage( language )
     {
         if( language != null )
@@ -98,16 +130,10 @@ class Lingua
                 {
                     let oldLanguage = this.language;
 					this.language = language;
-                    this.log( 'Using language "' + this.language + '"' );
+                    this._log( 'Using language "' + this.language + '"' );
 
                     //Creating translation object for chosen language
-                    let that = this;
-                    let currentTranslationObject = {};
-                    Object.entries( this.translations ).forEach( function( translation )
-                    {
-						currentTranslationObject[ translation[ 0 ] ] = ( translation[ 1 ][ that.language ] != undefined ? translation[ 1 ][ that.language ] : translation[ 0 ] );
-                    } );
-                    this.translation = currentTranslationObject;
+					this.translation = this._createTranslationObject( this.language );
 
 					//Translate document for the first time or again if autoRefresh option has been enabled (it is by default)
 					if( oldLanguage == null || this.options.autoRefresh )
@@ -128,7 +154,7 @@ class Lingua
                 }
                 else
                 {
-                    this.log( 'Language already set to "' + this.language + '"' );
+                    this._log( 'Language already set to "' + this.language + '"' );
                 }
             }
             else
@@ -179,11 +205,11 @@ class Lingua
 
             if( detectedLanguage != null )
             {
-                that.log( 'Detection by "' + orderItem + '" succeeded' );
+                that._log( 'Detection by "' + orderItem + '" succeeded' );
                 return false;
             }
 
-            that.log( 'Detection by "' + orderItem + '" failed' );
+            that._log( 'Detection by "' + orderItem + '" failed' );
             return true;
         } );
 
@@ -192,7 +218,7 @@ class Lingua
             if( this.languages.length > 0 )
             {                                
                 detectedLanguage = this.languages[ 0 ];
-                this.log( 'No language could be detected within the defined detection modules. Falling back to first language defined in translations: "' + this.language + '"' );
+                this._log( 'No language could be detected within the defined detection modules. Falling back to first language defined in translations: "' + this.language + '"' );
             }
         }
 
@@ -206,28 +232,44 @@ class Lingua
         }
     }
 
-    translateDocument()
-    {			
+    translateDocument( language = null )
+    {
         let that = this;
         document.querySelectorAll( '[' + this.options.htmlAttribute + ']' ).forEach( function( item ) 
         {             
-            item.innerHTML = that.translateText( item.getAttribute( that.options.htmlAttribute ) );             
-        } ); 
-		
-		this.log( 'Translate document in "' + this.language + '"' );
+            item.innerHTML = that.translateText( item.getAttribute( that.options.htmlAttribute ), language );
+        } );
     }
     
-    translateText( text )
+    translateText( text, language = null )
     {
+        let translationObject = this.translation;        
+        if( language != null )
+        {
+            try
+            {
+                translationObject = this._createTranslationObject( language );
+            }
+            catch( err )
+            {
+                this._log( 'Falling back to the current language as the temporary requested language does not exist' );
+                language = this.language;
+            }
+        }
+        else
+        {
+            language = this.language;
+        }
+
         //Search as name
-        let searchAsName = this.translation[ text ];
+        let searchAsName = translationObject[ text ];
         if( searchAsName != null )
         {
             text = searchAsName;
         }
 
         //Search as text
-		text = Lingua_stringUtils.interpolate( text, this.translation );
+		text = Lingua_stringUtils.interpolate( text, translationObject );
 
 		//Call user-defined processor (by default, an empty one that only returns what it receives)
 		if( this.options.processor != null && typeof( this.options.processor ) == 'function' )
@@ -250,13 +292,13 @@ class Lingua
         {											
 			if( mutations.some( function( mutation ) { return mutation.target.getAttribute( observerContext.options.htmlAttribute ) == null; } ) )
 			{				
-				observerContext.log( 'Translate document after detecting changes in DOM' );
+				observerContext._log( 'Translate document after detecting changes in DOM' );
 				observerContext.translateDocument();				
 			}           
         } );
         
         this.observer.observe( document.querySelector( 'html' ), { subtree: true, childList: true } );
-		this.log( "Enabled auto refresh" );
+		this._log( "Enabled auto refresh" );
     }
 
     disableAutoRefresh()
@@ -264,12 +306,7 @@ class Lingua
         if( this.observer != null )
         {			
             this.observer.disconnect();
-			this.log( "Disabled auto refresh" );
+			this._log( "Disabled auto refresh" );
         }        
-    }
-    
-    log( message )
-    {
-        console.log( "%c LinguaJS %c " + message, "background-color: black; color: white; font-weight: bold;", "color: black; font-weight: none;" ); 
-    }
+    }    
 }

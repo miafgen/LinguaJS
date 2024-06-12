@@ -19,6 +19,7 @@ All options are... optional ;-) The list of options presented here is exhaustive
 
 | Option             | Type     | Default value                                    |
 |--------------------|----------|--------------------------------------------------|
+| `verbose`          | Boolean  | false                                            |
 | `detectionModules` | Array    | `[ 'url', 'cookie', 'browser' ]`                 |
 | `urlParameter`     | String   | `'lang'`                                         |
 | `cookieName`       | String   | `'lang'`                                         |
@@ -46,8 +47,8 @@ If one of the default values is not suitable, it can be redefined by passing an 
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | currentLanguage( language ) | **Used to switch current language**                                                                                                                             | currentLanguage( 'de' );                                                           |
 | currentLanguage()           | **Get current language**                                                                                                                                        | currentLanguage();                                                                 |
-| translateDocument()         | **Translates current HTML document**: It is called automatically after initialization, and if auto refresh is activated, also on language switch and DOM change | translateDocument();                                                               |
-| translateText()             | **Translate a text**: Can be one of the terms alone, or one of the terms integrated in a string. If integrated, use prefix `${` and suffix `}`.                 | language.translateText( 'firstname' ); language.translateText( '${firstname}: ' ); |
+| translateDocument( language = null )         | **Translates current HTML document**: It is called automatically after initialization, and if auto refresh is activated, also on language switch and DOM change | translateDocument();                                                               |
+| translateText( language = null )             | **Translate a text**: Can be one of the terms alone, or one of the terms integrated in a string. If integrated, use prefix `${` and suffix `}`.                 | language.translateText( 'firstname' ); language.translateText( '${firstname}: ' ); |
 
 ### Adapting your HTML document
 Add the following attribute to your HTML elements with the corresponding associated term to make this element multilingual:
