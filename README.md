@@ -19,7 +19,7 @@ All options are... optional ;-) The list of options presented here is exhaustive
 
 | Option             | Type     | Default value                                    |
 |--------------------|----------|--------------------------------------------------|
-| `verbose`          | Boolean  | false                                            |
+| `verbose`          | Boolean  | `false`                                          |
 | `detectionModules` | Array    | `[ 'url', 'cookie', 'browser' ]`                 |
 | `urlParameter`     | String   | `'lang'`                                         |
 | `cookieName`       | String   | `'lang'`                                         |
